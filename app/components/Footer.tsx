@@ -1,0 +1,58 @@
+import { Film, Mail, Phone } from "lucide-react";
+export const Footer = () => {
+  return (
+    <div className="w-full h-[280px] bg-[#4338CA] pt-11.5 pl-20 pb-11.5 pr-20 justify-between flex ">
+      <div className="w-[247px] h-[52px] flex gap-1 flex-col ">
+        <div className="flex  items-center">
+          <Film
+            color="white"
+            font-weigth=""
+            width={20}
+            height={20}
+            display="flex"
+            justify-content="center"
+            align-items="center"
+          />
+          <div className="text-white text-base font-bold  flex justify-center items-center">
+            Movie Z
+          </div>
+        </div>
+        <div className="flex text-[#fafafa] text-sm font-normal ">
+          © 2024 Movie Z. All Rights Reserved.
+        </div>
+      </div>
+      <div className="flex gap-24">
+        <div className="flex gap-5 flex-col">
+          <div className="text-base font-norwal text-[#fafafa]">
+            Contact Information
+          </div>
+          <div className="flex flex-col gap-5">
+            <div className="h-10 flex items-center gap-x-3">
+              <Mail width={16} height={16} color="white" />
+              <div className="flex flex-col text-base font-norwal text-[#fafafa] ">
+                <div>Email:</div>
+                <div>support@movieZ.com</div>
+              </div>
+            </div>
+            <div className="h-10 flex items-center gap-x-3 ">
+              <Phone width={16} height={16} color="white" />
+              <div className="flex flex-col text-base font-norwal text-[#fafafa]">
+                <div>Phone:</div>
+                <div>+976 (11) 123-4567</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="flex gap-3 flex-col">
+          <div className="text-base font-medium text-[#fafafa]">Follow us</div>
+          <div className="flex text-base font-medium flex-row gap-3 text-[#fafafa]">
+            <div>Facebook</div>
+            <div>Instegram</div>
+            <div>Twitter</div>
+            <div>YouTube</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
