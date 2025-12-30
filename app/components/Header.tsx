@@ -1,20 +1,16 @@
 "use client";
- 
+
 import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  Moon,
-  ChevronUp,
-  ChevronDown,
-  ChevronRight,
-  Film 
-} from "lucide-react";
+
+import { Moon, ChevronUp, ChevronDown, ChevronRight, Film } from "lucide-react";
+// import { Fetcher } from "@/utils/Fetcher";
 export const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
- 
+
   const badges = [
     "Action",
     "Adventure",
@@ -44,11 +40,11 @@ export const Header = () => {
     "War",
     "Western",
   ];
- 
+
   return (
-    <div className="flex w-full h-9.5 justify-between items-center pt-11.5 pl-20 pb-11.5 pr-20">
+    <div className="flex w-7xl h-9.5 justify-between items-center pt-11.5 pl-20 pb-11.5 pr-20">
       <div className="flex gap-1 justify-center items-center">
-         <Film color="#4338CA"/>
+        <Film color="#4338CA" />
         <div className="text-[#4338CA] text-base font-bold">Movie Z</div>
       </div>
       <div className="flex flex-row gap-2 justify-center items-start relative ">
@@ -80,12 +76,7 @@ export const Header = () => {
             </div>
           )}
         </Button>
- 
-        <Input
-          type="text"
-          placeholder="Search..."
-          className="w-99.25 border border-gray-300"
-        />
+        {/* <Fetcher /> */}
       </div>
       <div className="w-9 h-9 rounded-md flex justify-center items-center bg-white border border-gray-300">
         <Moon className="w-5 h-5" />
