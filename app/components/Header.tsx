@@ -4,9 +4,9 @@ import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-
 import { Moon, ChevronUp, ChevronDown, ChevronRight, Film } from "lucide-react";
-// import { Fetcher } from "@/utils/Fetcher";
+// import { Fetcher } from "./about/components/Fetcher";
+
 export const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
@@ -40,6 +40,7 @@ export const Header = () => {
     "War",
     "Western",
   ];
+
 
   return (
     <div className="flex w-7xl h-9.5 justify-between items-center pt-11.5 pl-20 pb-11.5 pr-20">
