@@ -1,11 +1,11 @@
 "use client";
 
-import { useState } from "react";
+// import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { ChangeEvent, useState } from "react";
 import { Moon, ChevronUp, ChevronDown, ChevronRight, Film } from "lucide-react";
-// import { Fetcher } from "./about/components/Fetcher";
+// import { InputMovie } from "./about/components/InputMovie";
 
 export const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -40,7 +40,6 @@ export const Header = () => {
     "War",
     "Western",
   ];
-
 
   return (
     <div className="flex w-7xl h-9.5 justify-between items-center pt-11.5 pl-20 pb-11.5 pr-20">
@@ -77,7 +76,6 @@ export const Header = () => {
             </div>
           )}
         </Button>
-        {/* <Fetcher /> */}
       </div>
       <div className="w-9 h-9 rounded-md flex justify-center items-center bg-white border border-gray-300">
         <Moon className="w-5 h-5" />
