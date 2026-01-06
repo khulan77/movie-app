@@ -1,4 +1,6 @@
-import { MovieCard, movieApi, Movie } from "@/app/about/components/MovieCard";
+import { movieApi, Results } from "@/app/about/components/MovieCard";
+import { Header } from "@/app/components/Header";
+import { Footer } from "@/app/components/Footer";
 
 export default async function Page({
   params,
@@ -7,18 +9,50 @@ export default async function Page({
 }) {
   const { movieCategory } = await params;
 
-  const movieResults: Movie[] = await movieApi(movieCategory);
-  console.log(movieResults);
+  const movies: Results = await movieApi(movieCategory);
+
+  const title = movieCategory.includes("popular")
+    ? "Popular"
+    : movieCategory.includes("upcoming")
+    ? "Upcoming"
+    : "Top rated";
 
   return (
-    <div>
-      <h1>Category: {movieCategory}</h1>
-
-      <div>
-        {movieResults.map((films) => (
-          <MovieCard key={films.id} movie={films} />
-        ))}
+    <div className="flex flex-col items-center justify-center">
+      <Header />
+      <div className="w-360">
+        <div className="flex flex-col gap-8 px-20 py-13">
+          <p className="text-[24px] font-semibold">{title}</p>
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-5 md:gap-8">
+            {movies.results.map((films) => {
+              return (
+                <div
+                  key={films.id}
+                  className="rounded-lg overflow-hidden shadow-lg"
+                >
+                  <img
+                    className="object-cover object-center  md:min-h-85 min-h-60"
+                    src={`https://image.tmdb.org/t/p/w500${films.backdrop_path}`}
+                  />
+                  <div className="bg-gray-200 h-23.75 p-2">
+                    <div className="flex">
+                      <p className="text-[12px] flex md:text-[14px]">
+                        <img src="Star.png" alt="" />
+                        {films.vote_average}
+                      </p>
+                      <p className="opacity-50 text-[12px] flex items-center">
+                        /10
+                      </p>
+                    </div>
+                    <p>{films.original_title}</p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
       </div>
+      <Footer />
     </div>
   );
 }

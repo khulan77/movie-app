@@ -31,10 +31,10 @@ export const Upcoming = ({
                 className="rounded-lg overflow-hidden shadow-lg"
               >
                 <img
-                  className="object-cover object-center  md:min-h-[340px] min-h-[240px]"
+                  className="object-cover object-center  md:min-h-85 min-h-60"
                   src={`https://image.tmdb.org/t/p/w500${films.backdrop_path}`}
                 />
-                <div className="bg-gray-200 h-[95px] p-2">
+                <div className="bg-gray-200 h-23.75 p-2">
                   <div className="flex">
                     <p className="text-[12px] flex md:text-[14px]">
                       <img src="Star.png" alt="" />

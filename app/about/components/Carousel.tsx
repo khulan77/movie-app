@@ -20,7 +20,7 @@ export const CarouselPlugin = ({ results }: Results) => {
 
   return (
     <Carousel
-      className="py-8 pl-100 flex justify-center items-center"
+      className="py-8 relative flex justify-center items-center"
       plugins={[plugin.current]}
       onMouseEnter={plugin.current.stop}
       onMouseLeave={plugin.current.reset}
@@ -31,9 +31,9 @@ export const CarouselPlugin = ({ results }: Results) => {
             <CarouselItem key={movie.id} className="relative">
               <img
                 src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
-                className="w-7xl h-auto justify-center items-center object-cover object-center md:min-h-85 min-h-60 "
+                className="w-full h-auto justify-center items-center object-cover object-center md:min-h-85 min-h-60 "
               />
-              <div className="absolute left-35 top-44.5 inset-0 flex flex-col gap-4  ">
+              <div className="absolute w-101 left-35 top-44.5 inset-0 flex flex-col gap-4  ">
                 <p className="text-sm md:text-base text-gray-400">
                   Now Playing
                 </p>
@@ -64,8 +64,8 @@ export const CarouselPlugin = ({ results }: Results) => {
           );
         })}
       </CarouselContent>
-      <CarouselPrevious className="hidden" />
-      <CarouselNext className="hidden" />
+      <CarouselPrevious className="" />
+      <CarouselNext className="" />
     </Carousel>
   );
 };
