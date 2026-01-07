@@ -1,88 +1,97 @@
 "use client";
 
-// import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ChangeEvent, useState } from "react";
-import { Moon, ChevronUp, ChevronDown, ChevronRight, Film } from "lucide-react";
-import { Input } from "@/components/ui/input";
-import { Search } from "lucide-react";
-import { SearchBar } from "@/search/[searchMovie]/page";
+import { useEffect, useState } from "react";
+import {
+  Moon,
+  ChevronUp,
+  ChevronDown,
+  ChevronRight,
+  Film,
+} from "lucide-react";
+import { useRouter } from "next/navigation";
+import { SearchBar } from "../about/components/SearchBar";
+import { getGenres } from "@/utils/tmdb";
 
-export const Header = ({ search }: { search: string }) => {
+type Genre = {
+  id: number;
+  name: string;
+};
+
+export const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [genres, setGenres] = useState<{ id: number; name: string }[]>([]);
+
+  const router = useRouter();
+
   const toggle = () => setIsOpen(!isOpen);
 
-  const badges = [
-    "Action",
-    "Adventure",
-    "Animation",
-    "Biography",
-    "Comedy",
-    "Crime",
-    "Documentary",
-    "Drama",
-    "Family",
-    "Fantasy",
-    "Film-Noir",
-    "Game-Show",
-    "History",
-    "Horror",
-    "Music",
-    "Musical",
-    "Mystery",
-    "News",
-    "Reality-TV",
-    "Romance",
-    "Sci-Fi",
-    "Short",
-    "Sport",
-    "Talk-Show",
-    "Thriller",
-    "War",
-    "Western",
-  ];
+  // TMDB-ээс genre татах
+  useEffect(() => {
+    getGenres().then((data) => {
+      if (data && Array.isArray(data.genres)) {
+        setGenres(data.genres);
+      } else {
+        setGenres([]); // хамгаалалт
+      }
+    });
+  }, []);
 
   return (
-    <div className="flex w-full h-9.5 justify-between items-center pt-11.5 pl-20 pb-11.5 pr-20">
-      <div className="flex gap-1 justify-center items-center">
+    <div className="flex w-full justify-between items-center pt-11.5 pl-20 pb-11.5 pr-20">
+      {/* Logo */}
+      <div className="flex gap-1 items-center">
         <Film color="#4338CA" />
         <div className="text-[#4338CA] text-base font-bold">Movie Z</div>
       </div>
-      <div className="flex flex-row gap-2 justify-center items-start relative ">
+
+      {/* Genre + Search */}
+      <div className="flex gap-2 items-start relative">
         <Button
-          className="bg-white text-black border border-gray-300 w-24.15 h-9 "
+          className="bg-white text-black border border-gray-300"
           onClick={toggle}
         >
-          {isOpen ? <ChevronDown /> : <ChevronUp />}
-          Genre
-          {isOpen && (
-            <div className="absolute top-full mt-1 left-0 w-144.25 h-87.5 bg-white rounded-lg shadow-lg border border-gray-300 z-50 flex flex-col p-5 gap-4">
-              <div className="w-53.25 h-15 flex flex-col">
-                <h3 className="flex text-2xl font-semibold">Genres</h3>
-                <div className="text-base font-normal flex text-foreground">
-                  See lists of movies by genre
-                </div>
-              </div>
-              <div className="border w-134.25 h-px border-gray-200"></div>
-              <div className="w-134.25 flex gap-4 flex-wrap">
-                {badges.map((num) => (
-                  <Badge
-                    key={num}
-                    className="bg-white border border-gray-300 text-black"
-                  >
-                    {num} <ChevronRight />
-                  </Badge>
-                ))}
-              </div>
-            </div>
-          )}
+          {isOpen ? <ChevronDown /> : <ChevronUp />} Genre
         </Button>
-        {/* <Link href={`/search/${search}`}> */}
-        <SearchBar />
-        {/* </Link> */}
+
+        {/* Animated dropdown */}
+       <div
+  className={`
+    absolute top-full left-0 mt-1 w-[577px] bg-white rounded-lg shadow-lg border border-gray-300 z-50 p-5
+    transform origin-top-left transition-all duration-700 ease-in-out
+    ${isOpen ? "opacity-100 scale-x-100 scale-y-100" : "opacity-0 scale-x-95 scale-y-95 pointer-events-none"}
+  `}
+>
+  <h3 className="text-2xl font-semibold mb-1">Genres</h3>
+  <p className="text-base font-normal mb-4 text-[#09090B]">
+    See lists of movies by genre
+  </p>
+  <div className="w-full h-0 mb-4 border border-gray-300"></div>
+  <div className="flex gap-3 flex-wrap">
+    {genres.map((genre) => (
+      <Badge
+        key={genre.id}
+        className="bg-white border border-gray-300 text-black cursor-pointer hover:bg-black hover:text-white"
+        onClick={() => {
+          setIsOpen(false);
+          router.push(`/genre/${genre.id}`);
+        }}
+      >
+        {genre.name} <ChevronRight />
+      </Badge>
+    ))}
+  </div>
+</div>
+
+
+        <div className="w-[300px]">
+          <SearchBar />
+        </div>
       </div>
-      <div className="w-9 h-9 rounded-md flex justify-center items-center bg-white border border-gray-300">
+
+      {/* Theme */}
+      <div className="w-9 h-9 rounded-md flex justify-center items-center bg-white border">
         <Moon className="w-5 h-5" />
       </div>
     </div>

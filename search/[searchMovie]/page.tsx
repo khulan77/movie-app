@@ -1,69 +1,32 @@
-// "use client";
+import { notFound } from "next/navigation";
+import { fetcher } from "@/utils/fetcher";
 
-// import { useEffect, useState } from "react";
-// import useSWR from "swr";
-// import { fetcher } from "@/utils/fetcher";
+type Props = { searchParams: { query: string } };
 
-// const Home = () => {
-//   const { data, error, isLoading } = useSWR(
-//     `${process.env.NEXT_PUBLIC_TMDB_KEY}/search/movie?query=batman&language=en-US&page=1`,
-//     fetcher
-//   );
-//   console.log(data);
-//   return <div>hello</div>;
-// };
+export default async function SearchPage({ searchParams }: Props) {
+  const query = searchParams.query;
 
-// export default Home;
-// components/SearchBar.tsx
-"use client";
+  if (!query) return notFound();
 
-import { useState } from "react";
-import useSWR from "swr";
-import Link from "next/link";
-import { Input } from "@/components/ui/input";
-
-const fetcher = (url: string) =>
-  fetch(url, {
-    headers: {
-      Authorization: `Bearer ${process.env.NEXT_PUBLIC_TMDB_TOKEN}`,
-    },
-  }).then((res) => res.json());
-
-export const SearchBar = () => {
-  const [query, setQuery] = useState("");
-
-  const { data } = useSWR(
-    query.length > 1
-      ? `${
-          process.env.NEXT_PUBLIC_TMDB_BASE_URL
-        }/search/movie?query=${encodeURIComponent(query)}`
-      : null,
-    fetcher
+  const data = await fetcher(
+    `${process.env.TMDB_BASE_URL}/search/movie?query=${query}&language=en-US&page=1`
   );
 
   return (
-    <div className="relative w-[350px]">
-      <Input
-        placeholder="Search..."
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        className="border border-gray-300"
-      />
-
-      {query && (
-        <div className="absolute top-full w-full bg-white shadow-md rounded-md z-50">
-          {data?.results?.slice(0, 5).map((movie: any) => (
-            <Link
-              key={movie.id}
-              href={`/movie/${movie.id}`}
-              className="block px-4 py-2 hover:bg-gray-100"
-              onClick={() => setQuery("")}
-            >
-              {movie.title}
-            </Link>
-          ))}
-        </div>
-      )}
+    <div className="p-4">
+      <h1 className="text-xl mb-4">Search Results for "{query}"</h1>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        {data.results.map((movie: any) => (
+          <div key={movie.id}>
+            <img
+              src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+              alt={movie.title}
+              className="rounded-md"
+            />
+            <h2 className="mt-2 text-sm">{movie.title}</h2>
+          </div>
+        ))}
+      </div>
     </div>
   );
-};
+}

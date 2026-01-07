@@ -11,6 +11,8 @@ export type Movie = {
   vote_average: number;
   id: number;
   interval: number;
+  release_date: string;
+  genreId: number;
   // results: Movie[];
 };
 
@@ -27,12 +29,12 @@ export const movieApi = async (category: string) => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        authorization: `bearer ${process.env.NEXT_PUBLIC_TMDB_KEY}`,
+        authorization: `bearer ${process.env.NEXT_PUBLIC_TDMB_KEY}`,
       },
     }
   );
   const data = await response.json();
-
+ console.log(data)
   return data;
 };
 
@@ -40,7 +42,7 @@ type MoviesProps = {
   category: movieCategory;
 };
 
-export const MovieCard = async () => {
+export const MovieCard = async ({ movie }: { movie: any }) => {
   const { results: upcomingMovie } = await movieApi("upcoming");
   const { results: popularMovie } = await movieApi("popular");
   const { results: topRatedMovie } = await movieApi("top_rated");
