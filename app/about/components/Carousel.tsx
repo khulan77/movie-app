@@ -26,7 +26,7 @@ export const CarouselPlugin = ({ results }: Results) => {
       onMouseLeave={plugin.current.reset}
     >
       <CarouselContent>
-        {results.map((movie) => {
+        {results?.map((movie) => {
           return (
             <CarouselItem key={movie.id} className="relative">
               <img

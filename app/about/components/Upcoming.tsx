@@ -5,7 +5,7 @@ import Link from "next/link";
 export const Upcoming = ({
   title,
   category,
-  movieResults,
+  movieResults=[]
 }: {
   title: string;
   category: string;
