@@ -2,38 +2,38 @@
 
 import { useEffect, useState } from "react";
 import { getGenres } from "@/utils/tmdb";
-import { MovieGrid } from "./MovieGrid";
+import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 
 export default function GenreList() {
   const [genres, setGenres] = useState<{ id: number; name: string }[]>([]);
-  const [selectedGenre, setSelectedGenre] = useState<number | null>(null);
+  const searchParams = useSearchParams();
+  const selectedGenre = searchParams.get("genre");
 
-  // Жанруудыг татах
   useEffect(() => {
     getGenres().then((data) => setGenres(data.genres));
   }, []);
 
   return (
-    <div>
-      {/* Жанрын товчнууд */}
-      <div className="flex flex-wrap gap-2 mb-6">
-        {genres.map((genre) => (
-          <button
+    <div className="flex flex-wrap gap-2 mb-6">
+      {genres.map((genre) => {
+        const isActive = selectedGenre === genre.id.toString();
+
+        return (
+          <Link
             key={genre.id}
-            onClick={() => setSelectedGenre(genre.id)}
-            className={`px-3 py-1 rounded ${
-              selectedGenre === genre.id
-                ? "bg-white text-black"
-                : "bg-zinc-800 text-white"
-            }`}
+            href={`/?genre=${genre.id}`}
+            className={`px-3 py-1 rounded transition
+              ${
+                isActive
+                  ? "bg-white text-black"
+                  : "bg-zinc-800 text-white hover:bg-zinc-700"
+              }`}
           >
             {genre.name}
-          </button>
-        ))}
-      </div>
-
-      {/* MovieGrid-г зөвхөн selectedGenre байгаа үед дуудаж байна */}
-      {/* {selectedGenre && <MovieGrid genreId={selectedGenre} />} */}
+          </Link>
+        );
+      })}
     </div>
   );
 }

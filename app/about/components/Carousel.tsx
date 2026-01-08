@@ -20,7 +20,7 @@ export const CarouselPlugin = ({ results }: Results) => {
 
   return (
     <Carousel
-      className="py-8 relative flex justify-center items-center"
+      className="py-8 w-full relative flex justify-center items-center"
       plugins={[plugin.current]}
       onMouseEnter={plugin.current.stop}
       onMouseLeave={plugin.current.reset}
@@ -64,8 +64,8 @@ export const CarouselPlugin = ({ results }: Results) => {
           );
         })}
       </CarouselContent>
-      <CarouselPrevious className="" />
-      <CarouselNext className="" />
+      <CarouselPrevious className="hidden" />
+      <CarouselNext className="hidden" />
     </Carousel>
   );
 };

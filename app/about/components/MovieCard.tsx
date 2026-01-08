@@ -1,19 +1,20 @@
-import { log } from "node:console";
+"use client";
+
+import { useEffect, useState } from "react";
 import { CarouselPlugin } from "./Carousel";
 import { Upcoming } from "./Upcoming";
 
 export type Movie = {
-  backdrop_path: string;
+  id: number;
+  title: string;
   original_title: string;
   overview: string;
   poster_path: string;
-  title: string;
-  vote_average: number;
-  id: number;
-  interval: number;
+  backdrop_path: string;
   release_date: string;
-  genreId: number;
-  // results: Movie[];
+  vote_average: number;
+  interval?: number;
+  genreId?: number;
 };
 
 export type Results = {
@@ -22,45 +23,68 @@ export type Results = {
 
 export type movieCategory = "popular" | "upcoming" | "top_rated";
 
-export const movieApi = async (category: string) => {
-  const response = await fetch(
-    `https://api.themoviedb.org/3/movie/${category}`,
-    {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        authorization: `bearer ${process.env.NEXT_PUBLIC_TDMB_KEY}`,
-      },
-    }
-  );
-  const data = await response.json();
- console.log(data)
+const TMDB_BASE_URL = "https://api.themoviedb.org/3";
+
+export const movieApi = async (
+  category: string,
+  genreId?: number
+): Promise<Results> => {
+  const url = genreId
+    ? `${TMDB_BASE_URL}/discover/movie?with_genres=${genreId}&sort_by=popularity.desc`
+    : `${TMDB_BASE_URL}/movie/${category}`;
+
+  const res = await fetch(url, {
+    headers: {
+      Authorization: `Bearer ${process.env.NEXT_PUBLIC_TMDB_KEY}`,
+      "Content-Type": "application/json",
+    },
+  });
+
+  const data = await res.json();
   return data;
 };
 
-type MoviesProps = {
-  category: movieCategory;
-};
+export const MovieCard = ({ genreId }: { genreId?: number }) => {
+  const [upcomingMovie, setUpcomingMovie] = useState<Movie[]>([]);
+  const [popularMovie, setPopularMovie] = useState<Movie[]>([]);
+  const [topRatedMovie, setTopRatedMovie] = useState<Movie[]>([]);
 
-export const MovieCard = async ({ movie }: { movie: any }) => {
-  const { results: upcomingMovie } = await movieApi("upcoming");
-  const { results: popularMovie } = await movieApi("popular");
-  const { results: topRatedMovie } = await movieApi("top_rated");
+  // Fetch movies when genreId changes
+  useEffect(() => {
+    const fetchData = async () => {
+      const upcomingData = await movieApi("upcoming", genreId);
+      const popularData = await movieApi("popular", genreId);
+      const topRatedData = await movieApi("top_rated", genreId);
+
+      setUpcomingMovie(upcomingData.results);
+      setPopularMovie(popularData.results);
+      setTopRatedMovie(topRatedData.results);
+    };
+
+    fetchData();
+  }, [genreId]);
 
   return (
-    <div className="flex justify-center flex-col items-center">
-      <div className="p-5 md:px-20 mb-12.5 gap-8 flex justify-center items-center flex-col">
+    <div className="flex justify-center flex-col items-center w-full">
+      <div className="p-5 md:px-20 mb-12.5 gap-8 flex justify-center items-center flex-col w-full">
+        {/* Main Carousel */}
         <CarouselPlugin results={popularMovie} />
+
+        {/* Upcoming Section */}
         <Upcoming
           title="Upcoming"
           movieResults={upcomingMovie}
           category="upcoming"
         />
+
+        {/* Popular Section */}
         <Upcoming
           title="Popular"
           movieResults={popularMovie}
           category="popular"
         />
+
+        {/* TopRated Section */}
         <Upcoming
           title="TopRated"
           movieResults={topRatedMovie}

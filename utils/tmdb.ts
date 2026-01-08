@@ -1,10 +1,9 @@
 const TMDB_BASE_URL = "https://api.themoviedb.org/3";
 
-// TMDB-аас genre list авах
 export async function getGenres() {
   const res = await fetch(`${TMDB_BASE_URL}/genre/movie/list?language=en`, {
     headers: {
-      Authorization: `Bearer ${process.env.NEXT_PUBLIC_TDMB_KEY}`,
+      Authorization: `Bearer ${process.env.NEXT_PUBLIC_TMDB_KEY}`,
     },
     cache: "no-store",
   });
@@ -12,7 +11,6 @@ export async function getGenres() {
   return res.json();
 }
 
-// TMDB-аас movie list авах (optional genreId)
 export async function discoverMovies(genreId?: number, page = 1) {
   const url = genreId
     ? `${TMDB_BASE_URL}/discover/movie?language=en&with_genres=${genreId}&page=${page}`
@@ -20,7 +18,7 @@ export async function discoverMovies(genreId?: number, page = 1) {
 
   const res = await fetch(url, {
     headers: {
-      Authorization: `Bearer ${process.env.NEXT_PUBLIC_TDMB_KEY}`,
+      Authorization: `Bearer ${process.env.NEXT_PUBLIC_TMDB_KEY}`,
     },
     cache: "no-store",
   });
