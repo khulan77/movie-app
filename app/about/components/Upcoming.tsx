@@ -5,7 +5,7 @@ import Link from "next/link";
 export const Upcoming = ({
   title,
   category,
-  movieResults=[]
+  movieResults = [],
 }: {
   title: string;
   category: string;
@@ -16,6 +16,8 @@ export const Upcoming = ({
       {/* TITLE animation */}
       <div className="flex justify-between items-center animate-fade-up">
         <p className="text-[24px] font-semibold">{title}</p>
+
+        {/* CATEGORY PAGE LINK */}
         <Link href={`/category/${category}`}>
           <button className="flex gap-2 items-center">
             See more <ArrowRight width={16} height={16} />
@@ -30,25 +32,28 @@ export const Upcoming = ({
             <div
               style={{ animationDelay: `${index * 80}ms` }}
               className="
-      rounded-lg overflow-hidden
-      shadow-2xl
-      cursor-pointer
-      animate-fade-up
-      transition-transform transition-shadow duration-300
-      hover:scale-[1.03]
-      hover:shadow-xl
-    "
+                rounded-lg overflow-hidden
+                shadow-2xl
+                cursor-pointer
+                animate-fade-up
+                transition-transform transition-shadow duration-300
+                hover:scale-[1.03]
+                hover:shadow-xl
+              "
             >
+              {/* MOVIE POSTER */}
               <img
                 className="object-cover object-center md:min-h-85 min-h-60"
                 src={`https://image.tmdb.org/t/p/w500${films.backdrop_path}`}
                 alt={films.original_title}
               />
 
+              {/* MOVIE INFO */}
               <div className="bg-gray-300 h-23.75 p-2">
                 <div className="flex items-center gap-1">
                   <p className="text-[12px] md:text-[14px] flex items-center">
-                    <img src="Star.png" alt="" />
+                    {/* STATIC STAR IMAGE */}
+                    <img src="/Star.png" alt="Star" className="w-3 h-3" />
                     {films.vote_average}
                   </p>
                   <p className="opacity-50 text-[12px]">/10</p>

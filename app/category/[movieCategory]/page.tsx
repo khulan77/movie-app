@@ -1,7 +1,8 @@
-import { movieApi, Results } from "@/app/about/components/MovieCard";
+import { Results } from "@/app/about/components/MovieCard";
 import { Header } from "@/app/components/Header";
 import { Footer } from "@/app/components/Footer";
-
+import { movieApi } from "@/utils/tmdb";
+import Image from "next/image";
 export default async function Page({
   params,
 }: {
@@ -28,16 +29,16 @@ export default async function Page({
               return (
                 <div
                   key={films.id}
-                  className="rounded-lg overflow-hidden shadow-lg"
+                  className="rounded-t-lg"
                 >
                   <img
                     className="object-cover object-center  md:min-h-85 min-h-60"
                     src={`https://image.tmdb.org/t/p/w500${films.backdrop_path}`}
                   />
-                  <div className="bg-gray-200 h-23.75 p-2">
+                  <div className="bg-gray-200 h-23.75 p-2 rounded-b-lgcd ">
                     <div className="flex">
                       <p className="text-[12px] flex md:text-[14px]">
-                        <img src="Star.png" alt="" />
+                      <Image src="/Star.png" alt="star" width={16} height={16} />
                         {films.vote_average}
                       </p>
                       <p className="opacity-50 text-[12px] flex items-center">

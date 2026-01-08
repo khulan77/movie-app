@@ -5,9 +5,7 @@ import { Movie } from "./MovieCard";
 import { ChangeEvent, useState } from "react";
 import { fetcher } from "@/utils/fetcher";
 import useSWR from "swr";
-
 import { ArrowRight, Loader2Icon } from "lucide-react";
-
 import Link from "next/link";
 
 export const SearchBar = () => {
