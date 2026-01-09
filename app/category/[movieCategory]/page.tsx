@@ -29,16 +29,29 @@ export default async function Page({
               return (
                 <div
                   key={films.id}
-                  className="rounded-t-lg"
+                  className="
+                rounded-lg overflow-hidden
+                shadow-2xl
+                cursor-pointer
+                animate-fade-up
+                transition-transform transition-shadow duration-300
+                hover:scale-[1.03]
+                hover:shadow-xl
+              "
                 >
                   <img
-                    className="object-cover object-center  md:min-h-85 min-h-60"
+                    className="object-cover object-center rounded-t-lg  md:min-h-85 min-h-60"
                     src={`https://image.tmdb.org/t/p/w500${films.backdrop_path}`}
                   />
-                  <div className="bg-gray-200 h-23.75 p-2 rounded-b-lgcd ">
+                  <div className="bg-gray-200 h-23.75 p-2 rounded-b-lg ">
                     <div className="flex">
                       <p className="text-[12px] flex md:text-[14px]">
-                      <Image src="/Star.png" alt="star" width={16} height={16} />
+                        <Image
+                          src="/Star.png"
+                          alt="star"
+                          width={16}
+                          height={16}
+                        />
                         {films.vote_average}
                       </p>
                       <p className="opacity-50 text-[12px] flex items-center">

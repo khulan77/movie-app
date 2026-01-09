@@ -1,97 +1,83 @@
 "use client";
-
-import { Input } from "@/components/ui/input";
-import { Movie } from "./MovieCard";
-import { ChangeEvent, useState } from "react";
-import { fetcher } from "@/utils/fetcher";
+import { fetcher } from "../../../utils/fetcher";
 import useSWR from "swr";
-import { ArrowRight, Loader2Icon } from "lucide-react";
-import Link from "next/link";
+import { ChangeEvent, useState } from "react";
+import { Loader } from "lucide-react";
+import { useRouter } from "next/router";
+import { ArrowRight } from "lucide-react";
+
+type Movie = {
+  id: number;
+  title: string;
+  poster_path: string;
+  release_date: string;
+  vote_average: number;
+};
 
 export const SearchBar = () => {
+  // const { push } = useRouter();
   const [searchValue, setSearchValue] = useState("");
-
   const { data, isLoading } = useSWR(
     searchValue
-      ? `${process.env.NEXT_PUBLIC_TMDB_KEY}/search/movie?query=${searchValue}&language=en-US&page=1`
+      ? `${process.env.NEXT_PUBLIC_BASE_URL}/search/movie?query=${searchValue}&language=en-US&page=1`
       : null,
-
     fetcher
   );
-
-  const searchData = data?.results || [];
-
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchValue(event.target.value);
+    // push(`/?query=${event.target.value}`);
   };
 
   return (
-    <div className="relative">
-      <Input
-        onChange={handleChange}
-        placeholder="Search ..."
+    <div className="relative w-[577px]">
+      <input
         value={searchValue}
-        className="w-[379px] md:w-[34.75vw] w-full md:border md:border-gray-200 border-0 pl-6"
+        onChange={handleChange}
+        placeholder="Search..."
+        className="w-94.75 h-9 border rounded-lg bg-[#FFFFFF] border-[#E4E4E7] text-[14px] pl-4"
       />
 
-      {searchValue.length > 0 && (
-        <div className="border gap-4 p-5 flex flex-col border-solid border-gray-200 rounded-lg md:w-[34.25vw] z-20 absolute top-13 bg-white left-1/2 translate-x-[-50%]">
-          {isLoading ? (
-            <div className="flex justify-center items-center">
-              <Loader2Icon className="animate-spin" />
-            </div>
-          ) : searchData.length > 0 ? (
-            <>
-              {searchData.slice(0, 5).map((searched: Movie) => (
-                <div key={searched.id} className="flex flex-col gap-4">
-                  <div className="flex justify-between">
-                    <div className="flex gap-4">
-                      <img
-                        className="object-cover object-center h-25 w-16.75"
-                        src={`https://image.tmdb.org/t/p/original${searched.poster_path}`}
-                        alt={searched.title}
-                      />
-                      <div className="flex flex-col justify-between">
-                        <div className="font-semibold md:text-[20px] text-[16px]">
-                          {searched.title}
-                        </div>
-                        <div className="flex items-center text-[14px] font-medium">
-                          ★ {searched.vote_average}
-                          <span className="text-[12px] opacity-50"> /10</span>
-                        </div>
-                        <div className="font-medium md:text-[20px] text-[14px]">
-                          {searched.release_date}
-                        </div>
-                      </div>
-                    </div>
-                    <div className="flex items-end shrink-0">
-                      <Link
-                        href={`/movieDetail?query=${searched.id}`}
-                        onClick={() => setSearchValue("")}
-                        className="flex text-[14px] items-center gap-2 font-medium"
-                      >
-                        See more
-                        <ArrowRight className="w-4 h-4" />
-                      </Link>
-                    </div>
-                  </div>
-                  <div className="border-b border-gray-300"></div>
+      {isLoading && (
+        <div className="absolute right-3 top-2">
+          <Loader size={16} className="animate-spin" />
+        </div>
+      )}
+
+      {searchValue && data?.results?.length > 0 && (
+        <div className="absolute w-[577px] bg-white rounded-lg shadow-lg z-50 max-h-[729px] overflow-y-auto">
+          {data.results.map((movie: Movie) => (
+            <div
+              key={movie.id}
+              className="flex items-center gap-3 p-4 hover:bg-gray-100"
+            >
+              {movie.poster_path ? (
+                <img
+                  src={`https://image.tmdb.org/t/p/w92${movie.poster_path}`}
+                  alt={movie.title}
+                  className="w-[67px] h-[100px] object-cover rounded"
+                />
+              ) : (
+                <div className="w-[67px] h-[100px] bg-gray-300 rounded" />
+              )}
+
+              <div>
+                <div className="pb-4">
+                  <p className="text-[16px]">{movie.title}</p>
+                  <p className="text-[12px] text-[#09090B] flex items-center gap-2">
+                    ⭐ {movie.vote_average}
+                  </p>
                 </div>
-              ))}
-              <Link
-                href={`/SeeAllResult?searchValue=${searchValue}`}
-                onClick={() => setSearchValue("")}
-              >
-                <div className="text-sm font-medium">
-                  See all results for "{searchValue}"
+                <div className="flex items-center">
+                  <p className="text-[14px] text-gray-500">
+                    {movie.release_date}
+                  </p>
+                  <button className="text-[14px] flex items-center gap-2 pl-72">
+                    See more <ArrowRight width={16} height={16} />
+                  </button>
                 </div>
-              </Link>
-            </>
-          ) : (
-            <div className="flex justify-center">
-              <p>No results found.</p>
+              </div>
             </div>
-          )}
+          ))}
         </div>
       )}
     </div>

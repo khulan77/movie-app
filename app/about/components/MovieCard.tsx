@@ -25,7 +25,7 @@ export type movieCategory = "popular" | "upcoming" | "top_rated";
 
 const TMDB_BASE_URL = "https://api.themoviedb.org/3";
 
- const movieApi = async (
+const movieApi = async (
   category: string,
   genreId?: number
 ): Promise<Results> => {
@@ -35,7 +35,7 @@ const TMDB_BASE_URL = "https://api.themoviedb.org/3";
 
   const res = await fetch(url, {
     headers: {
-      Authorization: `Bearer ${process.env.NEXT_PUBLIC_TDMB_KEY}`,
+      Authorization: `Bearer ${process.env.NEXT_PUBLIC_TMDB_KEY}`,
       "Content-Type": "application/json",
     },
   });
