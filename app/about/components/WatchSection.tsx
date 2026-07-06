@@ -46,13 +46,11 @@ export const WatchSection = ({
       </div>
 
       {mode === "stream" ? (
-        <div className="relative aspect-video w-full rounded-2xl overflow-hidden bg-black shadow-xl">
-          <MoviePlayer
-            movieId={movieId}
-            backdropPath={backdropPath}
-            title={title}
-          />
-        </div>
+        <MoviePlayer
+          movieId={movieId}
+          backdropPath={backdropPath}
+          title={title}
+        />
       ) : (
         <div className="space-y-3">
           <SubtitlePlayer movieId={movieId} />
