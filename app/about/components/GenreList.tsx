@@ -34,8 +34,8 @@ export default function GenreList() {
               flex items-center gap-1 px-3 py-1 rounded-full border font-semibold text-[12px] transition-all
               ${
                 isActive
-                  ? "bg-black text-white border-black"
-                  : "bg-white text-black border-[#E4E4E7] hover:bg-gray-50 active:scale-95"
+                  ? "bg-black dark:bg-teal-600 text-white border-black dark:border-teal-600"
+                  : "bg-white dark:bg-zinc-900 text-black dark:text-zinc-200 border-[#E4E4E7] dark:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-800 active:scale-95"
               }
             `}
           >

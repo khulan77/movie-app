@@ -1,27 +1,19 @@
-import { Film, Mail, Phone } from "lucide-react";
+import { Clapperboard, Mail, Phone } from "lucide-react";
 export const Footer = () => {
   return (
-    <div className="w-full  bg-[#4338CA] px-20 py-10 justify-center flex">
+    <div className="w-full  bg-teal-600 dark:bg-teal-800 px-20 py-10 justify-center flex">
       <div className="w-[1280px] flex justify-between max-sm:px-4 max-sm:p-4.5 max-sm:gap-7 max-sm:flex-col">
         <div className="w-61.75 h-13 flex gap-1 flex-col ">
           <div className="flex  flex-col md:flex items-start max-sm:gap-2">
-            <div className="flex items-center gap-1 ">
-              <Film
-                color="white"
-                font-weigth=""
-                width={20}
-                height={20}
-                display="flex"
-                justify-content="center"
-                align-items="center"
-              />
+            <div className="flex items-center gap-1.5 ">
+              <Clapperboard color="white" width={20} height={20} />
 
               <div className="text-white text-base font-bold  flex justify-center items-center">
-                MovieZ
+                CineWave
               </div>
             </div>
             <div className="flex text-[#fafafa] text-sm font-normal ">
-              © 2024 Movie Z. All Rights Reserved.
+              © 2026 CineWave. All Rights Reserved.
             </div>
           </div>
         </div>
@@ -35,7 +27,7 @@ export const Footer = () => {
                 <Mail width={16} height={16} color="white" />
                 <div className="flex flex-col text-base font-norwal text-[#fafafa] ">
                   <div>Email:</div>
-                  <div>support@movieZ.com</div>
+                  <div>support@cinewave.com</div>
                 </div>
               </div>
               <div className="h-10 flex items-center gap-x-3 ">

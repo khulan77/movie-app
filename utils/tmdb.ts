@@ -28,8 +28,13 @@ export async function searchMovies(query: string) {
   return res.json();
 }
 
-export async function discoverMovies(genreIds: string, page: number = 1) {
-  const url = `${TMDB_BASE_URL}/discover/movie?with_genres=${genreIds}&page=${page}&sort_by=popularity.desc`;
+export async function discoverMovies(
+  genreIds: string,
+  page: number = 1,
+  year?: string,
+) {
+  let url = `${TMDB_BASE_URL}/discover/movie?with_genres=${genreIds}&page=${page}&sort_by=popularity.desc`;
+  if (year) url += `&primary_release_year=${year}`;
 
   const res = await fetch(url, {
     headers: {

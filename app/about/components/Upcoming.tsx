@@ -41,7 +41,7 @@ export const Upcoming = ({
       >
         {movieResults.slice(0, 10).map((movie) => (
           <Link key={movie.id} href={`/movie/${movie.id}`}>
-            <div className="group relative rounded-xl overflow-hidden bg-white shadow-sm hover:shadow-2xl transition-all duration-500 hover:-translate-y-3">
+            <div className="group relative rounded-xl overflow-hidden bg-white dark:bg-zinc-900 ring-1 ring-transparent dark:ring-zinc-800 shadow-sm hover:shadow-2xl dark:hover:ring-zinc-700 transition-all duration-500 hover:-translate-y-3">
               <div className="relative w-full aspect-2/3 overflow-hidden">
                 <img
                   src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
@@ -50,15 +50,15 @@ export const Upcoming = ({
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               </div>
-              <div className="bg-gray-100 p-3 transition-all duration-500 group-hover:bg-gray-200/80 backdrop-blur-sm">
+              <div className="bg-gray-100 dark:bg-zinc-800 p-3 transition-all duration-500 group-hover:bg-gray-200/80 dark:group-hover:bg-zinc-700/80 backdrop-blur-sm">
                 <div className="flex items-center gap-1 mb-1.5 transform transition-transform duration-500 group-hover:translate-x-1">
                   <img src="/Star.png" alt="star" className="w-3.5 h-3.5" />
-                  <span className="text-[12px] font-bold text-gray-800">
+                  <span className="text-[12px] font-bold text-gray-800 dark:text-zinc-100">
                     {movie.vote_average}
                   </span>
                   <span className="opacity-50 text-[11px]">/10</span>
                 </div>
-                <p className="text-[13px] font-semibold text-gray-900 truncate transition-all duration-500 group-hover:text-indigo-600">
+                <p className="text-[13px] font-semibold text-gray-900 dark:text-zinc-100 truncate transition-all duration-500 group-hover:text-teal-600 dark:group-hover:text-teal-400">
                   {movie.original_title}
                 </p>
               </div>

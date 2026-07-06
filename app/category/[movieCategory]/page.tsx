@@ -39,7 +39,7 @@ export default async function Page({
           >
             {movies?.results?.map((films: any) => (
               <Link key={films.id} href={`/movie/${films.id}`}>
-                <div className="rounded-lg overflow-hidden bg-white shadow-md hover:scale-105 transition-transform duration-200">
+                <div className="rounded-lg overflow-hidden bg-white dark:bg-zinc-900 ring-1 ring-transparent dark:ring-zinc-800 shadow-md hover:scale-105 transition-transform duration-200">
                   <div className="relative w-full aspect-[2/3]">
                     <img
                       src={`https://image.tmdb.org/t/p/w500${films.poster_path}`}
@@ -48,7 +48,7 @@ export default async function Page({
                     />
                   </div>
 
-                  <div className="bg-gray-200 p-2">
+                  <div className="bg-gray-200 dark:bg-zinc-800 p-2">
                     <div className="flex items-center gap-1 mb-1">
                       <Image
                         src="/Star.png"

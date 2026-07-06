@@ -25,17 +25,19 @@ export default async function SimilarMoviesPage({
   if (!movie) notFound();
 
   return (
-    <div className="max-w-300 mx-auto px-4 py-10 space-y-8 font-sans bg-white">
-      <h1 className="text-3xl text-black font-semibold">More like this</h1>
+    <div className="max-w-300 mx-auto px-4 py-10 space-y-8 font-sans">
+      <h1 className="text-3xl text-black dark:text-zinc-50 font-semibold">
+        More like this
+      </h1>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-5">
         {similar?.results?.map((m: any) => (
           <Link
             key={m.id}
             href={`/movie/${m.id}`}
-            className="group bg-[#f4f4f5] rounded-xl overflow-hidden flex flex-col transition-all hover:shadow-lg"
+            className="group bg-[#f4f4f5] dark:bg-zinc-900 ring-1 ring-transparent dark:ring-zinc-800 rounded-xl overflow-hidden flex flex-col transition-all hover:shadow-lg dark:hover:ring-zinc-700"
           >
-            <div className="relative aspect-[2/3] w-full overflow-hidden bg-gray-100">
+            <div className="relative aspect-[2/3] w-full overflow-hidden bg-gray-100 dark:bg-zinc-800">
               {m.poster_path ? (
                 <Image
                   src={`https://image.tmdb.org/t/p/w500${m.poster_path}`}
@@ -57,7 +59,7 @@ export default async function SimilarMoviesPage({
                 </span>
                 <span className="text-sm text-gray-400">/10</span>
               </div>
-              <h3 className="text-sm font-normal text-gray-900 line-clamp-2">
+              <h3 className="text-sm font-normal text-gray-900 dark:text-zinc-200 line-clamp-2">
                 {m.title}
               </h3>
             </div>

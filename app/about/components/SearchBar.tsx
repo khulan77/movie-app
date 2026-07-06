@@ -48,7 +48,7 @@ export const SearchBar = ({ isMobileOpen, onClose }: SearchBarProps) => {
       className={`relative w-full ${isMobileOpen ? "max-sm:flex-1" : "max-w-87.5"}`}
     >
       <div
-        className={`flex items-center w-full h-9 bg-white px-3 gap-2 border border-gray-300 rounded-lg
+        className={`flex items-center w-full h-9 bg-white dark:bg-zinc-900 px-3 gap-2 border border-gray-300 dark:border-zinc-700 rounded-lg
         ${isMobileOpen ? "max-sm:border-none" : ""}`}
       >
         <Search className="text-gray-400 shrink-0" width={16} height={16} />
@@ -59,7 +59,7 @@ export const SearchBar = ({ isMobileOpen, onClose }: SearchBarProps) => {
           onKeyDown={handleKeyDown}
           autoFocus={isMobileOpen}
           placeholder="Search ..."
-          className="flex-1 text-[14px] outline-none placeholder:text-gray-400"
+          className="flex-1 text-[14px] bg-transparent text-black dark:text-zinc-100 outline-none placeholder:text-gray-400 dark:placeholder:text-zinc-500"
         />
 
         {isLoading && (
@@ -68,14 +68,14 @@ export const SearchBar = ({ isMobileOpen, onClose }: SearchBarProps) => {
 
         {isMobileOpen && (
           <button onClick={onClose} className="hidden max-sm:block p-1">
-            <X className="text-black" size={14} />
+            <X className="text-black dark:text-zinc-100" size={14} />
           </button>
         )}
       </div>
 
       {shouldFetch && data?.results?.length > 0 && (
         <div
-          className={`absolute top-11 bg-white rounded-xl shadow-2xl border border-gray-100 z-50 overflow-hidden
+          className={`absolute top-11 bg-white dark:bg-zinc-900 rounded-xl shadow-2xl dark:shadow-black/50 border border-gray-100 dark:border-zinc-800 z-50 overflow-hidden
           ${isMobileOpen ? "max-sm:fixed max-sm:inset-x-4 max-sm:top-[70px] max-sm:w-auto" : "w-125 -left-18.75 md:left-0"}`}
         >
           <div className="max-h-105 overflow-y-auto">
@@ -87,9 +87,9 @@ export const SearchBar = ({ isMobileOpen, onClose }: SearchBarProps) => {
                   setSearchValue("");
                   if (onClose) onClose();
                 }}
-                className="flex items-center gap-3 p-3 hover:bg-[#f4f4f5] transition-colors border-b border-gray-100 last:border-0"
+                className="flex items-center gap-3 p-3 hover:bg-[#f4f4f5] dark:hover:bg-zinc-800 transition-colors border-b border-gray-100 dark:border-zinc-800 last:border-0"
               >
-                <div className="relative w-16.75 h-25 shrink-0 rounded overflow-hidden bg-gray-100">
+                <div className="relative w-16.75 h-25 shrink-0 rounded overflow-hidden bg-gray-100 dark:bg-zinc-800">
                   <Image
                     src={
                       movie.poster_path
@@ -102,7 +102,7 @@ export const SearchBar = ({ isMobileOpen, onClose }: SearchBarProps) => {
                   />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h4 className="text-sm font-semibold text-[#09090b] ">
+                  <h4 className="text-sm font-semibold text-[#09090b] dark:text-zinc-100">
                     {movie.title}
                   </h4>
                   <div className="flex items-center  mt-0.5">
@@ -114,12 +114,12 @@ export const SearchBar = ({ isMobileOpen, onClose }: SearchBarProps) => {
                       /10
                     </span>
                   </div>
-                  <div className="text-[#09090b] text-[14px] mt-5 font-medium">
+                  <div className="text-[#09090b] dark:text-zinc-300 text-[14px] mt-5 font-medium">
                     {movie.release_date}
                   </div>
                 </div>
 
-                <div className="flex mt-18 items-center gap-1 text-[12px] font-medium text-gray-900 shrink-0">
+                <div className="flex mt-18 items-center gap-1 text-[12px] font-medium text-gray-900 dark:text-zinc-200 shrink-0">
                   See more <ArrowRight size={14} />
                 </div>
               </Link>
@@ -127,7 +127,7 @@ export const SearchBar = ({ isMobileOpen, onClose }: SearchBarProps) => {
           </div>
           <button
             onClick={handleSearchRedirect}
-            className="w-full p-4 text-[14px] flex font-medium hover:bg-gray-50 border-t border-gray-100 transition-all"
+            className="w-full p-4 text-[14px] flex font-medium hover:bg-gray-50 dark:hover:bg-zinc-800 border-t border-gray-100 dark:border-zinc-800 transition-all"
           >
             See all results for "{searchValue}"
           </button>

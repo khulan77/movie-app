@@ -15,7 +15,13 @@ import { getMovieVideos } from "@/utils/tmdb";
 import { TrailerModal } from "./TrailerModal";
 
 export const CarouselPlugin = ({ results }: { results: Results }) => {
-  const plugin = React.useRef(Autoplay({ delay: 5000 }));
+  const plugin = React.useRef(
+    Autoplay({
+      delay: 4000,
+      stopOnInteraction: false,
+      stopOnMouseEnter: false,
+    }),
+  );
   const [modal, setModal] = useState<{
     key: string;
     backdrop: string;
@@ -45,9 +51,8 @@ export const CarouselPlugin = ({ results }: { results: Results }) => {
     <>
       <Carousel
         className="relative w-full"
+        opts={{ loop: true }}
         plugins={[plugin.current]}
-        onMouseEnter={plugin.current.stop}
-        onMouseLeave={plugin.current.reset}
       >
         <CarouselContent>
           {movies.map((movie: any) => (
@@ -89,7 +94,7 @@ export const CarouselPlugin = ({ results }: { results: Results }) => {
                 </div>
               </div>
 
-              <div className="sm:hidden flex flex-col bg-white">
+              <div className="sm:hidden flex flex-col bg-white dark:bg-zinc-900">
                 <img
                   src={`https://image.tmdb.org/t/p/w780${movie.backdrop_path}`}
                   className="w-full h-60 object-cover"
@@ -97,24 +102,26 @@ export const CarouselPlugin = ({ results }: { results: Results }) => {
                 />
 
                 <div className="p-4 flex flex-col gap-3">
-                  <p className="text-xs text-gray-500">Now Playing</p>
+                  <p className="text-xs text-gray-500 dark:text-zinc-400">
+                    Now Playing
+                  </p>
 
-                  <h2 className="text-lg font-bold text-gray-900">
+                  <h2 className="text-lg font-bold text-gray-900 dark:text-zinc-50">
                     {movie.original_title}
                   </h2>
 
                   <div className="flex items-center gap-2 text-sm">
                     ⭐ {movie.vote_average?.toFixed(1) || "0.0"}
-                    <span className="text-gray-500">/10</span>
+                    <span className="text-gray-500 dark:text-zinc-400">/10</span>
                   </div>
 
-                  <p className="text-sm text-gray-600 line-clamp-3">
+                  <p className="text-sm text-gray-600 dark:text-zinc-300 line-clamp-3">
                     {movie.overview}
                   </p>
 
                   <button
                     onClick={() => handleWatchTrailer(movie)}
-                    className="w-35 mt-2 bg-black text-white py-2 rounded-lg text-sm font-semibold"
+                    className="w-35 mt-2 bg-black dark:bg-teal-600 text-white py-2 rounded-lg text-sm font-semibold"
                   >
                     ▶ Watch Trailer
                   </button>

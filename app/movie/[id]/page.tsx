@@ -2,14 +2,13 @@ import {
   getMovieDetail,
   getMovieCredits,
   getSimilarMovies,
-  getMovieVideos,
 } from "@/utils/tmdb";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { ArrowRight, Star } from "lucide-react";
-import { TrailerPlayer } from "@/app/about/components/TrailerPlayer";
+import { WatchSection } from "@/app/about/components/WatchSection";
 
 export default async function MovieDetailPage({
   params,
@@ -17,11 +16,10 @@ export default async function MovieDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id: movieId } = await params;
-  const [movie, credits, similar, videos] = await Promise.all([
+  const [movie, credits, similar] = await Promise.all([
     getMovieDetail(movieId),
     getMovieCredits(movieId),
     getSimilarMovies(movieId),
-    getMovieVideos(movieId),
   ]);
 
   if (!movie) notFound();
@@ -33,19 +31,15 @@ export default async function MovieDetailPage({
       ["Writer", "Screenplay", "Story"].includes(c.job),
     ) || [];
   const stars = credits?.cast?.slice(0, 5) || [];
-  const trailer =
-    videos?.results?.find(
-      (v: any) => v.type === "Trailer" && v.site === "YouTube",
-    ) || videos?.results?.[0];
 
   return (
     <div className="max-w-300 mx-auto px-4 py-10 space-y-10 font-sans">
       <div className="flex justify-between items-start">
         <div className="space-y-1">
-          <h3 className="text-4xl max-sm:text-2xl font-semibold text-black">
+          <h3 className="text-4xl max-sm:text-2xl font-semibold text-black dark:text-zinc-50">
             {movie.title}
           </h3>
-          <p className="text-[09090b] text-lg font-normal">
+          <p className="text-gray-600 dark:text-zinc-400 text-lg font-normal">
             {movie.release_date} • {movie.adult ? "R" : "PG"} • {movie.runtime}m
           </p>
         </div>
@@ -57,7 +51,7 @@ export default async function MovieDetailPage({
           <div className="flex items-center gap-1.5">
             <Star size={22} className="fill-yellow-400 text-yellow-400" />
             <div className="flex flex-col leading-tight">
-              <span className="text-lg font-semibold text-gray-900">
+              <span className="text-lg font-semibold text-gray-900 dark:text-zinc-50">
                 {movie?.vote_average ? movie.vote_average.toFixed(1) : "0.0"}
                 <span className="text-[#71717a]  items-center flex-row text-base font-normal">
                   /10
@@ -72,7 +66,7 @@ export default async function MovieDetailPage({
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-[280px_1fr] gap-6 items-stretch">
-        <div className="relative aspect-2/3 w-full rounded-2xl overflow-hidden shadow-2xl hidden md:block border border-gray-100">
+        <div className="relative aspect-2/3 w-full rounded-2xl overflow-hidden shadow-2xl hidden md:block border border-gray-100 dark:border-zinc-800">
           <Image
             src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
             alt={movie.title || "Poster"}
@@ -81,18 +75,12 @@ export default async function MovieDetailPage({
             priority
           />
         </div>
-        <div className="relative aspect-video w-full rounded-2xl overflow-hidden bg-black shadow-xl order-first md:order-0">
-          {trailer ? (
-            <TrailerPlayer
-              trailerKey={trailer.key}
-              backdropPath={movie.backdrop_path}
-              title={movie.title}
-            />
-          ) : (
-            <div className="w-full h-full flex items-center justify-center text-gray-400">
-              No Trailer
-            </div>
-          )}
+        <div className="order-first md:order-0">
+          <WatchSection
+            movieId={movieId}
+            backdropPath={movie.backdrop_path}
+            title={movie.title}
+          />
         </div>
       </div>
 
@@ -113,13 +101,13 @@ export default async function MovieDetailPage({
                 {movie.genres?.map((g: any) => (
                   <Badge
                     key={g.id}
-                    className="rounded-full bg-gray-100 text-gray-800 hover:bg-gray-200 border-none px-4 py-1.5 font-bold text-xs uppercase tracking-wider"
+                    className="rounded-full bg-gray-100 dark:bg-zinc-800 text-gray-800 dark:text-zinc-200 hover:bg-gray-200 dark:hover:bg-zinc-700 border-none px-4 py-1.5 font-bold text-xs uppercase tracking-wider"
                   >
                     {g.name}
                   </Badge>
                 ))}
               </div>
-              <p className="text-gray-800 w-full text-lg leading-relaxed">
+              <p className="text-gray-800 dark:text-zinc-300 w-full text-lg leading-relaxed">
                 {movie.overview}
               </p>
             </div>
@@ -127,32 +115,32 @@ export default async function MovieDetailPage({
 
           <div className="space-y-4 pt-4 ">
             <div className="flex items-start gap-4">
-              <span className="text-base font-semibold text-gray-900 w-24 ">
+              <span className="text-base font-semibold text-gray-900 dark:text-zinc-100 w-24 ">
                 Director
               </span>
-              <span className="text-base text-[#09090b] font-normal ">
+              <span className="text-base text-[#09090b] dark:text-zinc-300 font-normal ">
                 {directors.map((d: any) => d.name).join(", ")}
               </span>
             </div>
-            <div className="h-px bg-gray-300 w-full" />
+            <div className="h-px bg-gray-300 dark:bg-zinc-800 w-full" />
             <div className="flex items-start gap-4">
-              <span className="text-base font-semibold text-gray-900 w-24 ">
+              <span className="text-base font-semibold text-gray-900 dark:text-zinc-100 w-24 ">
                 Writers
               </span>
-              <span className="text-base text-[#09090b] font-normal ">
+              <span className="text-base text-[#09090b] dark:text-zinc-300 font-normal ">
                 {writers.map((w: any) => w.name).join(", ")}
               </span>
             </div>
-            <div className="h-px bg-gray-300 w-full" />
+            <div className="h-px bg-gray-300 dark:bg-zinc-800 w-full" />
             <div className="flex items-start gap-4">
-              <span className="text-base font-semibold text-gray-900 w-24 ">
+              <span className="text-base font-semibold text-gray-900 dark:text-zinc-100 w-24 ">
                 Stars
               </span>
-              <span className="text-base text-[#09090b] font-normal ">
+              <span className="text-base text-[#09090b] dark:text-zinc-300 font-normal ">
                 {stars.map((s: any) => s.name).join(", ")}
               </span>
             </div>
-            <div className="h-px bg-gray-300 w-full" />
+            <div className="h-px bg-gray-300 dark:bg-zinc-800 w-full" />
           </div>
         </div>
       </div>
@@ -174,7 +162,7 @@ export default async function MovieDetailPage({
               <Link
                 key={m.id}
                 href={`/movie/${m.id}`}
-                className={`group bg-[#f4f4f5] rounded-xl overflow-hidden flex flex-col transition-all ${
+                className={`group bg-[#f4f4f5] dark:bg-zinc-900 ring-1 ring-transparent dark:ring-zinc-800 hover:shadow-lg dark:hover:ring-zinc-700 rounded-xl overflow-hidden flex flex-col transition-all ${
                   index >= 2 ? "hidden md:flex" : "flex"
                 }`}
               >
@@ -197,7 +185,7 @@ export default async function MovieDetailPage({
                     </span>
                     <span className="text-sm text-gray-400">/10</span>
                   </div>
-                  <h3 className="text-sm font-normal text-gray-900 line-clamp-1">
+                  <h3 className="text-sm font-normal text-gray-900 dark:text-zinc-200 line-clamp-1">
                     {m.title}
                   </h3>
                 </div>
